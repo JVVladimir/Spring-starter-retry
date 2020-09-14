@@ -65,7 +65,7 @@ publishing {
         create<MavenPublication>("maven") {
             groupId = "${project.group}"
             artifactId = project.name
-            version = "${project.version}"
+            version = "${project.version}-SNAPSHOT"
 
             from(components["kotlin"])
         }
@@ -81,5 +81,3 @@ publishing {
         }
     }
 }
-
-
