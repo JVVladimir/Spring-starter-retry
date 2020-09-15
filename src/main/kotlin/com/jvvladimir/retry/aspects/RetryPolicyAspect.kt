@@ -9,7 +9,6 @@ import mu.toKLogger
 import org.aspectj.lang.ProceedingJoinPoint
 import org.aspectj.lang.annotation.Around
 import org.aspectj.lang.annotation.Aspect
-import org.aspectj.lang.annotation.Pointcut
 import org.aspectj.lang.reflect.MethodSignature
 import org.slf4j.LoggerFactory
 import org.springframework.context.ConfigurableApplicationContext
@@ -26,11 +25,7 @@ class RetryPolicyAspect(
 
     private val log: KLogger = LoggerFactory.getLogger(RetryPolicyAspect::class.java).toKLogger()
 
-    @Pointcut("@annotation(com.jvvladimir.retry.annotations.Retry)")
-    fun retryMethod() {
-    }
-
-    @Around("retryMethod()")
+    @Around("@annotation(com.jvvladimir.retry.annotations.Retry)")
     fun aroundCallAt(call: ProceedingJoinPoint) {
         log.debug { "Start execution method" }
         val method = (call.signature as MethodSignature).method
