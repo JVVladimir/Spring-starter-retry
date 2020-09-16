@@ -70,8 +70,8 @@ publishing {
         maven {
             url = uri("http://localhost:8081/repository/maven-snapshots/")
             credentials {
-                username = "admin"
-                password = "java"
+                username = System.getProperty("gradle.wrapperUser")
+                password = System.getProperty("gradle.wrapperPassword")
             }
         }
     }
