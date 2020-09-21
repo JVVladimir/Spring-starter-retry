@@ -37,6 +37,7 @@ class RetryPolicyAspect(
         repeat(retry.countOfAttempts) { count ->
             try {
                 call.proceed()
+                return
             } catch (suppressedEx: Throwable) {
                 // Проверяем, что исключение входит в группу допустимых из аннотации, иначе бросаем непредвиденное исключение
                 if (exceptionClasses.isNotEmpty() && !exceptionClasses.any { it.java == suppressedEx.javaClass }) {
@@ -73,18 +74,15 @@ class RetryPolicyAspect(
     }
 
     private fun invokeMethodAnnotatedWith(type: Class<*>, annotation: Class<out Annotation>) {
-        var klass = type
-        while (klass != Any::class.java) {
-            for (method in klass.declaredMethods) {
-                if (method.isAnnotationPresent(annotation)) {
-                    if (method.parameterCount == 0) {
-                        method.invoke(context.getBean(type))
-                    } else {
-                        throw IllegalArgumentException("Method marked with @AfterFail should have no args")
-                    }
+        for (method in type.declaredMethods) {
+            if (method.isAnnotationPresent(annotation)) {
+                if (method.parameterCount == 0) {
+                    method.invoke(context.getBean(type))
+                    break
+                } else {
+                    throw IllegalArgumentException("Method marked with @AfterFail should have no args")
                 }
             }
-            klass = klass.superclass
         }
     }
 }

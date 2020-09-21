@@ -3,6 +3,11 @@ package com.jvvladimir.retry.annotations
 import java.util.concurrent.TimeUnit
 import kotlin.reflect.KClass
 
+/**
+ * Аннотацией помечается метод, требующий повторного вызова в случае ошибки
+ *
+ * */
+
 @MustBeDocumented
 @Retention(AnnotationRetention.RUNTIME)
 @Target(AnnotationTarget.ANNOTATION_CLASS, AnnotationTarget.FUNCTION)
