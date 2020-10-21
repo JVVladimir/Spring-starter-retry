@@ -1,1 +1,1 @@
-rootProject.name = "spring.starter.retry"
+rootProject.name = "Spring-starter-retry"
